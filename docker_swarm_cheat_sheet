@@ -1,0 +1,103 @@
+INITIALIZE NEW SWARM
+====================
+
+docker swarm init --listen-addr 192.168.0.24:2377 --secret PASSWORD
+
+Note:
+You can add the --auto-accept option to specify if other nodes are automatically allowed to connect to the swarm e.g.
+
+docker swarm init --listen-addr 192.168.0.24:2377 --secret PASSWORD --auto-accept worker,manager
+
+If the autoaccept has not been configured for either a worker or manager, you use the docker node accept command e.g.
+
+docker node accept ggjljlhkgytxcvbwqerfghjkkll
+
+
+
+VIEW NODES THAT MAKE UP A SWARM
+================================
+
+docker node ls
+
+
+
+JOIN NODE TO SWARM
+=====================
+
+To join a node as a manager you add the --manager flag.
+
+docker swarm join 192.168.0.24:2377 --secret PASSWORD \
+	--ca-hash sha256:klwazectbhijmxcvbnmjhuihuiefiokjflkjiojkkljluyiuhhikcda \
+	--listen-addr 192.168.0.25:2377 --manager
+
+To join a node as a worker you add the --worker flag.
+
+docker swarm join 192.168.0.24:2377 --secret PASSWORD \
+	--ca-hash sha256:klwazectbhijmxcvbnmjhuihuiefiokjflkjiojkkljluyiuhhikcda \
+	--listen-addr 192.168.0.25:2377 --worker
+
+Note:
+To promote a worker to a manager we use the following command:
+
+docker node promote wertyuzsxcvbnmdfghjkrtyuiop
+
+
+
+RUN A SERVICE ON THE SWARM
+==========================
+
+docker service create --name example -p 80:80 --replicas 7 ubuntu
+
+
+VIEW SERVICE STATUS
+====================
+
+docker service tasks example
+
+
+
+VIEW RUNNING SERVICES
+=====================
+
+docker service ls
+
+OR
+
+
+
+
+
+VIEW TASKS RUNNING ON A NODE
+============================
+
+docker node tasks node1
+
+
+
+KILL/STOP A SERVICE
+====================
+
+docker service rm example
+
+
+
+CREATE AN OVERLAY NETWORK
+=========================
+
+docker network create -d overlay overlay_net
+
+
+
+VIEW CONFIGURED OVERLAY NETWORKS
+================================
+
+docker network ls
+
+
+
+SPECIFY OVERLAY NETWORK WHEN CREATING SERVICE
+=============================================
+
+docker service create --name example --replicas 7 -p 80:80 --network overlay_net ubuntu
+
+
