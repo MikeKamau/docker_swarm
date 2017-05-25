@@ -61,10 +61,6 @@ VIEW RUNNING SERVICES
 
 docker service ls
 
-OR
-
-
-
 
 
 VIEW TASKS RUNNING ON A NODE
